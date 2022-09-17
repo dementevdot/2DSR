@@ -7,6 +7,7 @@ public class TraficCar : MonoBehaviour
     [SerializeField] private bool _isOpposite;
 
     private int _direction;
+    private float _speed = 10;
 
     private void Start()
     {
@@ -21,6 +22,11 @@ public class TraficCar : MonoBehaviour
     }
     private void Update()
     {
-        transform.position += new Vector3(_direction * 10f * Time.deltaTime, 0);
+        transform.position += new Vector3(_direction * _speed * Time.deltaTime, 0);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("aé");
     }
 }

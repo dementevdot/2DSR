@@ -25,11 +25,26 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    protected bool TryGetFreeRoad(out GameObject result)
+    protected bool TryGetObject(out GameObject result)
     {
         result = _pool.FirstOrDefault(road => road.activeSelf == false);
 
         return result != null;
+    }
+
+    protected void DisableObjectAbroadCamera()
+    {
+        Vector3 disaplePoint = _camera.ViewportToWorldPoint(new Vector2(-1, 0));
+
+        foreach (var item in _pool)
+        {
+            if (item.activeSelf == true)
+            {
+                if (item.transform.position.x < disaplePoint.x)
+                    item.SetActive(false);
+
+            }
+        }
     }
 
     public void ResetPool()

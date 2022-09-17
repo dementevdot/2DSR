@@ -24,9 +24,8 @@ public class RoadGenerator : ObjectPool
     private void Start()
     {
         int spawnPositionX = -12;
-        int startRoadCount = 4;
 
-        for (int i = 0; i < startRoadCount; i++)
+        for (int i = 0; i < _capacity; i++)
         { 
             _pool[i].SetActive(true);
             _pool[i].transform.position = new Vector3(spawnPositionX, 0, transform.position.z);
