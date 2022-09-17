@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Car : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Car : MonoBehaviour
     [SerializeField] private float _acceleration;
     [SerializeField] private float _braking;
 
+    private Vector3 _startPosition;
+    private float _currentSpeed = 0;
     private float _mileage = 0;
 
     public float MaxSpeed => _maxSpeed;
@@ -16,15 +19,50 @@ public class Car : MonoBehaviour
     public float Acceleration => _acceleration;
     public float Bracking => _braking;
     public float Mileage => _mileage;
+    public float CurrentSpeed => _currentSpeed;
 
+    public event UnityAction GameOver;
+    public event UnityAction ResetGame;
+
+    private void Awake()
+    {
+        _startPosition = transform.position;
+    }
+
+    public void Reset()
+    {
+        _currentSpeed = 0;
+        _mileage = 0;
+        transform.position = _startPosition;
+        ResetGame?.Invoke();
+    }
     public void AddMileage(float distance) 
     {
         _mileage += distance;
     }
 
-    public void Destoy()
+    public void SetCurrentSpeed(float speed)
     {
-
+        if (speed > _minSpeed && speed < _maxSpeed)
+            _currentSpeed = speed;
     }
 
+    public void IncreaseSpeed(float speed)
+    {
+        if (speed > 0)
+            if (_currentSpeed + speed <= _maxSpeed)
+                _currentSpeed += speed;
+    }
+
+    public void DecreaseSpeed(float speed)
+    {
+        if (speed > 0)
+            if (_currentSpeed - speed >= _minSpeed)
+                _currentSpeed -= speed;
+    }
+
+    public void InvokeGameOver()
+    {
+        GameOver?.Invoke();
+    }
 }

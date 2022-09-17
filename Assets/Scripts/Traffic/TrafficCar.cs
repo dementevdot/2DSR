@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TraficCar : MonoBehaviour
+public class TrafficCar : MonoBehaviour
 {
     [SerializeField] private bool _isOpposite;
 
     private int _direction;
-    private float _speed = 10;
+    private float _speed;
 
     private void Start()
     {
@@ -19,6 +19,9 @@ public class TraficCar : MonoBehaviour
         {
             _direction = 1;
         }
+
+        Reset();
+
     }
     private void Update()
     {
@@ -27,6 +30,11 @@ public class TraficCar : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("aé");
+        _speed = 0;
+    }
+
+    public void Reset()
+    {
+        _speed = 10;
     }
 }

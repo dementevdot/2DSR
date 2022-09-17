@@ -6,50 +6,66 @@ using System.Linq;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] private GameObject _spawner;
-    [SerializeField] protected int _capacity;
+    [SerializeField] protected int Capacity;
 
-    protected Camera _camera;
+    protected Camera Camera;
 
-    protected List<GameObject> _pool = new List<GameObject>();
+    protected List<GameObject> Pool = new List<GameObject>();
 
     protected void Init(List<GameObject> prefabs)
     {
-        _camera = Camera.main;
+        Camera = Camera.main;
 
-        for (int i = 0; i < _capacity; i++)
+        for (int i = 0; i < Capacity; i++)
         {
             GameObject spawned = Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)], _spawner.transform);
             spawned.SetActive(false);
 
-            _pool.Add(spawned);
+            Pool.Add(spawned);
         }
     }
 
     protected bool TryGetObject(out GameObject result)
     {
-        result = _pool.FirstOrDefault(road => road.activeSelf == false);
+        result = Pool.FirstOrDefault(road => road.activeSelf == false);
 
         return result != null;
     }
 
     protected void DisableObjectAbroadCamera()
     {
-        Vector3 disaplePoint = _camera.ViewportToWorldPoint(new Vector2(-1, 0));
+        Vector3 disablePoint = Camera.ViewportToWorldPoint(new Vector2(-0.2f, 0));
 
-        foreach (var item in _pool)
+        foreach (var item in Pool)
         {
             if (item.activeSelf == true)
             {
-                if (item.transform.position.x < disaplePoint.x)
+                if (item.transform.position.x < disablePoint.x)
+                {
                     item.SetActive(false);
-
+                }
             }
         }
     }
 
-    public void ResetPool()
+    protected List<GameObject> GetActiveObjects()
     {
-        foreach (var item in _pool)
+        List<GameObject> activeObjects = new List<GameObject>();
+
+        foreach (var item in Pool)
+        {
+            if (item.activeSelf == true)
+            {
+                activeObjects.Add(item);
+            }
+        }
+
+        return activeObjects;
+    }
+
+    public virtual void ResetPool()
+    {
+        foreach (var item in Pool)
         {
             item.SetActive(false);
         }

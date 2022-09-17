@@ -11,8 +11,8 @@ public class CarMover : MonoBehaviour
 
     private Car _car;
     private UserInput _userInput;
-    private float _currentSpeed = 0;
     private bool _isOppositeDirection = false;
+    private bool _movingDisabled = false;
     private Coroutine _currentLaneChangeCoroutine;
 
     private void Awake()
@@ -23,62 +23,72 @@ public class CarMover : MonoBehaviour
 
     private void OnEnable()
     {
+        _car.ResetGame += OnGameReset;
         _userInput.InputUpdated += Move;
     }
 
     private void OnDisable()
     {
+        _car.ResetGame -= OnGameReset;
         _userInput.InputUpdated -= Move;
     }
 
     private void FixedUpdate()
     {
-        _car.AddMileage(_currentSpeed * Time.deltaTime);
+        if (_movingDisabled == false)
+        {
+            _car.AddMileage(_car.CurrentSpeed * Time.deltaTime);
+            transform.position += new Vector3(_car.CurrentSpeed * Time.deltaTime, 0, 0);
+        }
+    }
 
-        transform.position += new Vector3(_currentSpeed * Time.deltaTime, 0, 0);
+    private void OnGameReset()
+    {
+        _movingDisabled = false;
     }
 
     private void Move(Vector3 vector)
     {
-        if (vector.z != 0)
+        if (_movingDisabled == false)
         {
-            if (_isOppositeDirection)
+            if (vector.z != 0)
             {
-                if (vector.z == -1)
+                if (_isOppositeDirection)
                 {
-                    if (_currentLaneChangeCoroutine != null)
-                        StopCoroutine(_currentLaneChangeCoroutine);
+                    if (vector.z == -1)
+                    {
+                        if (_currentLaneChangeCoroutine != null)
+                            StopCoroutine(_currentLaneChangeCoroutine);
 
-                    _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
+                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
 
-                    _isOppositeDirection = false;
+                        _isOppositeDirection = false;
+                    }
+                }
+                else
+                {
+                    if (vector.z == 1)
+                    {
+                        if (_currentLaneChangeCoroutine != null)
+                            StopCoroutine(_currentLaneChangeCoroutine);
+
+                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
+
+                        _isOppositeDirection = true;
+                    }
                 }
             }
-            else
+
+            if (vector.x != 0)
             {
-                if (vector.z == 1)
+                if (vector.x == -1)
                 {
-                    if (_currentLaneChangeCoroutine != null)
-                        StopCoroutine(_currentLaneChangeCoroutine);
-
-                    _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
-
-                    _isOppositeDirection = true;
+                    _car.DecreaseSpeed(_car.Bracking * Time.deltaTime);
                 }
-            }
-        }
-
-        if (vector.x != 0)
-        {
-            if (vector.x == -1)
-            {
-                if (_currentSpeed > _car.MinSpeed)
-                    _currentSpeed -= _car.Bracking * Time.deltaTime;
-            }
-            else
-            {
-                if (_currentSpeed  < _car.MaxSpeed)
-                    _currentSpeed += _car.Acceleration * Time.deltaTime;
+                else
+                {
+                    _car.IncreaseSpeed(_car.Acceleration * Time.deltaTime);
+                }
             }
         }
     }
@@ -102,5 +112,13 @@ public class CarMover : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void DisableCarMoving()
+    {
+        if (_currentLaneChangeCoroutine != null)
+            StopCoroutine(_currentLaneChangeCoroutine);
+
+        _movingDisabled = true;
     }
 }
