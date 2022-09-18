@@ -1,24 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Car))]
 [RequireComponent(typeof(UserInput))]
 public class CarMover : MonoBehaviour
 {
-    [SerializeField] private float _oppositeDirectionYCoordinate;
-    [SerializeField] private float _passingDirectionYCoordinate;
+    [SerializeField] private List<float> _laneCoordinates;
 
     private Car _car;
+    private int _carPosition;
+    private int _laneCount;
     private UserInput _userInput;
     private bool _isOppositeDirection = false;
     private bool _movingDisabled = false;
+    private bool _playerAccelerationDisabled = false;
     private Coroutine _currentLaneChangeCoroutine;
+    private Coroutine _currentStartAccelerationCoroutine;
+
+    public bool IsOppositeDirection => _isOppositeDirection;
+    public float CarCurrentSpeed => _car.CurrentSpeed;
 
     private void Awake()
     {
         _car = GetComponent<Car>();
         _userInput = GetComponent<UserInput>();
+        _laneCount = _laneCoordinates.Count;
+    }
+
+    private void Start()
+    {
+        _playerAccelerationDisabled = true;
+
+        if (_currentStartAccelerationCoroutine != null)
+            StopCoroutine(_currentStartAccelerationCoroutine);
+
+        _currentStartAccelerationCoroutine = StartCoroutine(StartAcceleration());
     }
 
     private void OnEnable()
@@ -35,16 +53,16 @@ public class CarMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_movingDisabled == false)
-        {
-            _car.AddMileage(_car.CurrentSpeed * Time.deltaTime);
-            transform.position += new Vector3(_car.CurrentSpeed * Time.deltaTime, 0, 0);
-        }
+        transform.position += new Vector3(_car.CurrentSpeed * Time.deltaTime, 0, 0);
+        _car.AddMileage(_car.CurrentSpeed * Time.deltaTime);
     }
 
     private void OnGameReset()
     {
         _movingDisabled = false;
+        _isOppositeDirection = false;
+        _carPosition = 0;
+        Start();
     }
 
     private void Move(Vector3 vector)
@@ -53,16 +71,14 @@ public class CarMover : MonoBehaviour
         {
             if (vector.z != 0)
             {
-                if (_isOppositeDirection)
+                if (_carPosition >= 2)
                 {
                     if (vector.z == -1)
                     {
                         if (_currentLaneChangeCoroutine != null)
                             StopCoroutine(_currentLaneChangeCoroutine);
 
-                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
-
-                        _isOppositeDirection = false;
+                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange(false));
                     }
                 }
                 else
@@ -72,13 +88,15 @@ public class CarMover : MonoBehaviour
                         if (_currentLaneChangeCoroutine != null)
                             StopCoroutine(_currentLaneChangeCoroutine);
 
-                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange());
-
-                        _isOppositeDirection = true;
+                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange(true));
                     }
                 }
             }
+        }
 
+
+        if (_playerAccelerationDisabled == false)
+        {
             if (vector.x != 0)
             {
                 if (vector.x == -1)
@@ -93,17 +111,34 @@ public class CarMover : MonoBehaviour
         }
     }
 
-    private IEnumerator LaneChange()
+    private IEnumerator LaneChange(bool isLeftDirection)
     {
-        Vector3 direction;
+        Vector3 direction = transform.position;
 
-        if (_isOppositeDirection)
+        if (isLeftDirection)
         {
-            direction = new Vector3(0, _passingDirectionYCoordinate, 0);
+            if (_carPosition < _laneCount)
+            {
+                direction = new Vector3(0, _laneCoordinates[++_carPosition], 0);
+
+                if (_carPosition == 2)
+                    _isOppositeDirection = true;
+            }
+
+            Debug.Log("вверх");
         }
         else
         {
-            direction = new Vector3(0, _oppositeDirectionYCoordinate, 0);
+            if (_carPosition > 0)
+            {
+                direction = new Vector3(0, _laneCoordinates[--_carPosition], 0);
+
+                if (_carPosition == 1)
+                    _isOppositeDirection = false;
+
+            }
+            
+            Debug.Log("вниз");
         }
 
         while (transform.position.y != direction.y)
@@ -112,6 +147,17 @@ public class CarMover : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private IEnumerator StartAcceleration()
+    {
+        while (_car.CurrentSpeed < _car.MinSpeed)
+        {
+            _car.IncreaseSpeed(_car.Acceleration * Time.deltaTime);
+            yield return null;
+        }
+
+        _playerAccelerationDisabled = false;
     }
 
     public void DisableCarMoving()

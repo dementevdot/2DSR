@@ -10,6 +10,8 @@ public class ScreenController : MonoBehaviour
     [SerializeField] private TrafficGenerator _passingGenerator;
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private GameOverScreen _gameOverScreen;
+    [SerializeField] private Speedometer _speedometer;
+    [SerializeField] private CurrentScore _currentScore;
 
     private void OnEnable()
     {
@@ -27,8 +29,10 @@ public class ScreenController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 0;
+        _startScreen.Open(); 
         _gameOverScreen.Close();
-        _startScreen.Open();
+        _speedometer.Close();
+        _currentScore.Close();
     }
 
     private void OnStartButtonClick()
@@ -49,11 +53,15 @@ public class ScreenController : MonoBehaviour
     {
         Time.timeScale = 1;
         _car.Reset();
+        _speedometer.Open();
+        _currentScore.Open();
     }
 
     private void OnGameOver()
     {
         Time.timeScale = 0;
         _gameOverScreen.Open();
+        _speedometer.Close();
+        _currentScore.Close();
     }
 }
