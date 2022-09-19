@@ -71,9 +71,9 @@ public class CarMover : MonoBehaviour
         {
             if (vector.z != 0)
             {
-                if (_carPosition >= 2)
+                if (vector.z == -1)
                 {
-                    if (vector.z == -1)
+                    if (_carPosition > 0)
                     {
                         if (_currentLaneChangeCoroutine != null)
                             StopCoroutine(_currentLaneChangeCoroutine);
@@ -81,9 +81,9 @@ public class CarMover : MonoBehaviour
                         _currentLaneChangeCoroutine = StartCoroutine(LaneChange(false));
                     }
                 }
-                else
+                else if (vector.z == 1)
                 {
-                    if (vector.z == 1)
+                    if (_carPosition < _laneCount - 1)
                     {
                         if (_currentLaneChangeCoroutine != null)
                             StopCoroutine(_currentLaneChangeCoroutine);
@@ -121,11 +121,9 @@ public class CarMover : MonoBehaviour
             {
                 direction = new Vector3(0, _laneCoordinates[++_carPosition], 0);
 
-                if (_carPosition == 2)
+                if (_carPosition == _laneCount / 2)
                     _isOppositeDirection = true;
             }
-
-            Debug.Log("вверх");
         }
         else
         {
@@ -133,12 +131,9 @@ public class CarMover : MonoBehaviour
             {
                 direction = new Vector3(0, _laneCoordinates[--_carPosition], 0);
 
-                if (_carPosition == 1)
+                if (_carPosition == _laneCount / 2 - 1)
                     _isOppositeDirection = false;
-
             }
-            
-            Debug.Log("вниз");
         }
 
         while (transform.position.y != direction.y)

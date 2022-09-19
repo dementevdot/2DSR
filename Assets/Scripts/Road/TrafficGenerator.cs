@@ -8,6 +8,7 @@ public class TrafficGenerator : ObjectPool
     [SerializeField] private float _minSecondsBetweenSpawn;
     [SerializeField] private float _maxSecondsBetweenSpawn;
     [SerializeField] private float _minDistanceBetweenCars;
+    [SerializeField] private float _maxDistanceBetweenCars;
 
     private float _secondsBetweenSpawn;
 
@@ -36,7 +37,7 @@ public class TrafficGenerator : ObjectPool
                     
                     foreach (var item in activeOjects)
                     {
-                        if (Vector2.Distance(item.transform.position, transform.position) < _minDistanceBetweenCars)
+                        if (Vector2.Distance(item.transform.position, transform.position) < Random.Range(_minDistanceBetweenCars, _maxDistanceBetweenCars))
                             return;
                     }
                 }

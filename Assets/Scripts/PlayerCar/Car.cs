@@ -34,6 +34,7 @@ public class Car : MonoBehaviour
         _currentSpeed = 0;
         _mileage = 0;
         transform.position = _startPosition;
+        transform.rotation = new Quaternion(0, 0, 0, 0);
         ResetGame?.Invoke();
     }
     public void AddMileage(float distance) 

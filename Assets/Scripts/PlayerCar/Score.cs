@@ -18,9 +18,12 @@ public class Score : MonoBehaviour
     private Car _car;
     private CarMover _carMover;
 
-    public float TotalScore => _totalScore;
     public float CurrentScore => _currentScore;
+    public float BestScore => _bestScore;
+    public float TotalScore => _totalScore;
     public int Ratio => _ratio;
+
+    public event UnityAction BestScoreUpdated;
 
     private void Awake()
     {
@@ -73,9 +76,10 @@ public class Score : MonoBehaviour
         if (_currentScore > _bestScore)
             _bestScore = _currentScore;
 
+        BestScoreUpdated?.Invoke();
+
         _totalScore += _currentScore;
 
         _currentScore = 0;
-
     }
 }

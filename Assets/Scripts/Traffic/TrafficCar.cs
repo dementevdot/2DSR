@@ -9,20 +9,18 @@ public class TrafficCar : MonoBehaviour
     private int _direction;
     private float _speed;
 
+    public float Speed => _speed;
+
     private void Start()
     {
         if (_isOpposite)
-        {
             _direction = -1;
-        }
         else
-        {
             _direction = 1;
-        }
 
         Reset();
-
     }
+
     private void Update()
     {
         transform.position += new Vector3(_direction * _speed * Time.deltaTime, 0);
@@ -36,5 +34,6 @@ public class TrafficCar : MonoBehaviour
     public void Reset()
     {
         _speed = 10;
+        transform.rotation = new Quaternion(0,0,0,0);
     }
 }
