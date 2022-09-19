@@ -415,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawner: {fileID: 1534293319}
   Capacity: 6
-  _car: {fileID: 5939175946022897232, guid: 6791e9814a3a98a4bb9769f6a41940b3, type: 3}
+  _trafficCarPrefab: {fileID: 5939175946022897232, guid: 6791e9814a3a98a4bb9769f6a41940b3, type: 3}
   _minSecondsBetweenSpawn: 2
   _maxSecondsBetweenSpawn: 6
   _minDistanceBetweenCars: 0
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawner: {fileID: 1534293319}
   Capacity: 6
-  _car: {fileID: 5939175946022897232, guid: 6791e9814a3a98a4bb9769f6a41940b3, type: 3}
+  _trafficCarPrefab: {fileID: 5939175946022897232, guid: 6791e9814a3a98a4bb9769f6a41940b3, type: 3}
   _minSecondsBetweenSpawn: 2
   _maxSecondsBetweenSpawn: 6
   _minDistanceBetweenCars: 0
@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawner: {fileID: 1736298326}
   Capacity: 8
-  _car: {fileID: 5694620384503365439, guid: 15be4a34b837d75468427fccad4b1489, type: 3}
+  _trafficCarPrefab: {fileID: 5694620384503365439, guid: 15be4a34b837d75468427fccad4b1489, type: 3}
   _minSecondsBetweenSpawn: 5
   _maxSecondsBetweenSpawn: 10
   _minDistanceBetweenCars: 15
@@ -1622,7 +1622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawner: {fileID: 1736298326}
   Capacity: 6
-  _car: {fileID: 5694620384503365439, guid: 15be4a34b837d75468427fccad4b1489, type: 3}
+  _trafficCarPrefab: {fileID: 5694620384503365439, guid: 15be4a34b837d75468427fccad4b1489, type: 3}
   _minSecondsBetweenSpawn: 2
   _maxSecondsBetweenSpawn: 4
   _minDistanceBetweenCars: 15

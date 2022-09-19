@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrafficGenerator : ObjectPool
 {
-    [SerializeField] private GameObject _car;
+    [SerializeField] private GameObject _trafficCarPrefab;
     [SerializeField] private float _minSecondsBetweenSpawn;
     [SerializeField] private float _maxSecondsBetweenSpawn;
     [SerializeField] private float _minDistanceBetweenCars;
@@ -14,11 +14,11 @@ public class TrafficGenerator : ObjectPool
 
     private void Awake()
     {
-        List<GameObject> _carsPrefabs = new List<GameObject>();
+        List<GameObject> _trafficCarPrefabs = new List<GameObject>();
 
-        _carsPrefabs.Add(_car);
+        _trafficCarPrefabs.Add(_trafficCarPrefab);
 
-        Init(_carsPrefabs);
+        Init(_trafficCarPrefabs);
 
         _secondsBetweenSpawn = Random.Range(_minSecondsBetweenSpawn, _maxSecondsBetweenSpawn);
     }

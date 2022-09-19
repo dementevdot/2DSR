@@ -18,6 +18,7 @@ public class CarMover : MonoBehaviour
     private bool _playerAccelerationDisabled = false;
     private Coroutine _currentLaneChangeCoroutine;
     private Coroutine _currentStartAccelerationCoroutine;
+    private int differenceBetweenCountingFromOneAndCountingFromZero = 1;
 
     public bool IsOppositeDirection => _isOppositeDirection;
     public float CarCurrentSpeed => _car.CurrentSpeed;
@@ -67,28 +68,24 @@ public class CarMover : MonoBehaviour
 
     private void Move(Vector3 vector)
     {
+        int minimumPositionFromWhichCanChangeLaneToTheRight = 0;
+
         if (_movingDisabled == false)
         {
             if (vector.z != 0)
             {
                 if (vector.z == -1)
                 {
-                    if (_carPosition > 0)
+                    if (_carPosition > minimumPositionFromWhichCanChangeLaneToTheRight)
                     {
-                        if (_currentLaneChangeCoroutine != null)
-                            StopCoroutine(_currentLaneChangeCoroutine);
-
-                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange(false));
+                        StartLaneChange(false);
                     }
                 }
                 else if (vector.z == 1)
                 {
-                    if (_carPosition < _laneCount - 1)
+                    if (_carPosition < _laneCount - differenceBetweenCountingFromOneAndCountingFromZero)
                     {
-                        if (_currentLaneChangeCoroutine != null)
-                            StopCoroutine(_currentLaneChangeCoroutine);
-
-                        _currentLaneChangeCoroutine = StartCoroutine(LaneChange(true));
+                        StartLaneChange(true);
                     }
                 }
             }
@@ -111,8 +108,18 @@ public class CarMover : MonoBehaviour
         }
     }
 
+    private void StartLaneChange(bool isLeftDirection)
+    {
+        if (_currentLaneChangeCoroutine != null)
+            StopCoroutine(_currentLaneChangeCoroutine);
+
+        _currentLaneChangeCoroutine = StartCoroutine(LaneChange(isLeftDirection));
+    }
+
     private IEnumerator LaneChange(bool isLeftDirection)
     {
+        int numberWhenDividedByWhichYouCanGetHalfTheNumber = 2;
+
         Vector3 direction = transform.position;
 
         if (isLeftDirection)
@@ -121,7 +128,7 @@ public class CarMover : MonoBehaviour
             {
                 direction = new Vector3(0, _laneCoordinates[++_carPosition], _carPosition);
 
-                if (_carPosition == _laneCount / 2)
+                if (_carPosition == _laneCount / numberWhenDividedByWhichYouCanGetHalfTheNumber)
                     _isOppositeDirection = true;
             }
         }
@@ -131,7 +138,7 @@ public class CarMover : MonoBehaviour
             {
                 direction = new Vector3(0, _laneCoordinates[--_carPosition], _carPosition);
 
-                if (_carPosition == _laneCount / 2 - 1)
+                if (_carPosition == _laneCount / numberWhenDividedByWhichYouCanGetHalfTheNumber - differenceBetweenCountingFromOneAndCountingFromZero)
                     _isOppositeDirection = false;
             }
         }

@@ -10,8 +10,11 @@ public class TrafficCarPaint : MonoBehaviour
 
     private void OnEnable()
     {
+        float minColor = 0;
+        float maxColor = 1;
+
         if (_isRandomColor)
-            _carColor = new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+            _carColor = new Color(Random.Range(minColor,maxColor), Random.Range(minColor, maxColor), Random.Range(minColor, maxColor), maxColor);
 
         _carPaint.color = _carColor;
     }
