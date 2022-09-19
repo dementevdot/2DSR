@@ -119,7 +119,7 @@ public class CarMover : MonoBehaviour
         {
             if (_carPosition < _laneCount)
             {
-                direction = new Vector3(0, _laneCoordinates[++_carPosition], 0);
+                direction = new Vector3(0, _laneCoordinates[++_carPosition], _carPosition);
 
                 if (_carPosition == _laneCount / 2)
                     _isOppositeDirection = true;
@@ -129,16 +129,19 @@ public class CarMover : MonoBehaviour
         {
             if (_carPosition > 0)
             {
-                direction = new Vector3(0, _laneCoordinates[--_carPosition], 0);
+                direction = new Vector3(0, _laneCoordinates[--_carPosition], _carPosition);
 
                 if (_carPosition == _laneCount / 2 - 1)
                     _isOppositeDirection = false;
             }
         }
 
-        while (transform.position.y != direction.y)
+        while (transform.position.y != direction.y && transform.position.z != direction.z)
         {
-            transform.position = new Vector3(transform.position.x, Mathf.MoveTowards(transform.position.y, direction.y, Time.deltaTime * 5f), transform.position.z);
+            transform.position = new Vector3(
+                transform.position.x, 
+                Mathf.MoveTowards(transform.position.y, direction.y, Time.deltaTime * _car.Handleabitity), 
+                Mathf.MoveTowards(transform.position.z, direction.z, Time.deltaTime * _car.Handleabitity));
 
             yield return null;
         }

@@ -9,6 +9,7 @@ public class Car : MonoBehaviour
     [SerializeField] private float _minSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _braking;
+    [SerializeField] private float _handleability;
 
     private Vector3 _startPosition;
     private float _currentSpeed = 0;
@@ -18,6 +19,7 @@ public class Car : MonoBehaviour
     public float MinSpeed => _minSpeed;
     public float Acceleration => _acceleration;
     public float Bracking => _braking;
+    public float Handleabitity => _handleability;
     public float Mileage => _mileage;
     public float CurrentSpeed => _currentSpeed;
 
