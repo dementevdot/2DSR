@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Car))]
+[RequireComponent(typeof(CarMover))]
 public class CarCollisionHandler : MonoBehaviour
 {
     private Car _car;

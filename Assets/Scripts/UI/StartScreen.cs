@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class StartScreen : Screen
 {
     public event UnityAction StartButtonClick;
+
     public override void Close()
     {
         gameObject.SetActive(false);

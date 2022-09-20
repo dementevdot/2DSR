@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class GameOverScreen : Screen
 {
     public event UnityAction RestartButtonClick;
+
     public override void Close()
     {
         gameObject.SetActive(false);

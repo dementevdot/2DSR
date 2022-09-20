@@ -56,7 +56,8 @@ public class TrafficGenerator : ObjectPool
     {
         foreach(var car in Pool)
         {
-            car.GetComponent<TrafficCar>().Reset();
+            if (car.TryGetComponent<TrafficCar>(out TrafficCar trafficCar))
+                trafficCar.Reset();
         }
     }
 
