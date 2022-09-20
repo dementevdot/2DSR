@@ -23,8 +23,7 @@ public class Car : MonoBehaviour
     public float Mileage => _mileage;
     public float CurrentSpeed => _currentSpeed;
 
-    public event UnityAction GameOver;
-    public event UnityAction ResetGame;
+    public event UnityAction CarReset;
 
     private void Awake()
     {
@@ -37,7 +36,7 @@ public class Car : MonoBehaviour
         _mileage = 0;
         transform.position = _startPosition;
         transform.rotation = new Quaternion(0, 0, 0, 0);
-        ResetGame?.Invoke();
+        CarReset?.Invoke();
     }
     public void AddMileage(float distance) 
     {
@@ -62,10 +61,5 @@ public class Car : MonoBehaviour
         if (speed > 0)
             if (_currentSpeed - speed >= _minSpeed)
                 _currentSpeed -= speed;
-    }
-
-    public void InvokeGameOver()
-    {
-        GameOver?.Invoke();
     }
 }

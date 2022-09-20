@@ -6,17 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(CarMover))]
 public class CarCollisionHandler : MonoBehaviour
 {
-    private Car _car;
+    [SerializeField] private ScreenController _screenController;
+
     private CarMover _carMover;
 
     private void Awake()
     {
-        _car = GetComponent<Car>();
         _carMover = GetComponent<CarMover>();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _car.InvokeGameOver();
+        _screenController.EndGame();
         _carMover.DisableCarMoving();
     }
 }

@@ -2143,6 +2143,14 @@ PrefabInstance:
       propertyPath: _spawner
       value: 
       objectReference: {fileID: 1421932412}
+    - target: {fileID: 823097503365600649, guid: 027742266f73c7b48824fbc020a4ee40, type: 3}
+      propertyPath: _screenController
+      value: 
+      objectReference: {fileID: 119603906}
+    - target: {fileID: 6452385994009687057, guid: 027742266f73c7b48824fbc020a4ee40, type: 3}
+      propertyPath: _screenController
+      value: 
+      objectReference: {fileID: 119603906}
     - target: {fileID: 7552289926714010420, guid: 027742266f73c7b48824fbc020a4ee40, type: 3}
       propertyPath: m_RootOrder
       value: 0

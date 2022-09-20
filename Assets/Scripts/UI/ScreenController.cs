@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScreenController : MonoBehaviour
 {
@@ -12,18 +13,18 @@ public class ScreenController : MonoBehaviour
     [SerializeField] private Speedometer _speedometer;
     [SerializeField] private CurrentScore _currentScore;
 
+    public event UnityAction GameOver;
+
     private void OnEnable()
     {
         _startScreen.StartButtonClick += OnStartButtonClick;
         _gameOverScreen.RestartButtonClick += OnRestartButtonClick;
-        _car.GameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
         _startScreen.StartButtonClick -= OnStartButtonClick;
         _gameOverScreen.RestartButtonClick -= OnRestartButtonClick;
-        _car.GameOver -= OnGameOver;
     }
     private void Start()
     {
@@ -59,11 +60,12 @@ public class ScreenController : MonoBehaviour
         _currentScore.Open();
     }
 
-    private void OnGameOver()
+    public void EndGame()
     {
         Time.timeScale = 0;
         _speedometer.Close();
         _currentScore.Close();
         _gameOverScreen.Open();
+        GameOver?.Invoke();
     }
 }

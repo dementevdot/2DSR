@@ -9,14 +9,15 @@ public class Score : MonoBehaviour
 {
     [SerializeField] private int _defaltRatio;
     [SerializeField] private float _ratioIncreeseTime;
+    [SerializeField] private ScreenController _screenController;
 
     private float _currentScore;
     private float _bestScore;
     private float _totalScore;
     private int _ratio;
     private float _secondsBetweenRatioIncreese;
-    private Car _car;
     private CarMover _carMover;
+    private Coroutine _currentRatioIncreeseCountdownCoroutine;
 
     public float CurrentScore => _currentScore;
     public float BestScore => _bestScore;
@@ -27,7 +28,6 @@ public class Score : MonoBehaviour
 
     private void Awake()
     {
-        _car = GetComponent<Car>();
         _carMover = GetComponent<CarMover>();
         _currentScore = 0;
         _totalScore = 0;
@@ -35,12 +35,12 @@ public class Score : MonoBehaviour
 
     private void OnEnable()
     {
-        _car.GameOver += OnGameOver;
+        _screenController.GameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
-        _car.GameOver -= OnGameOver;
+        _screenController.GameOver -= OnGameOver;
     }
 
     public void AddScore(float score)
@@ -56,19 +56,40 @@ public class Score : MonoBehaviour
             {
                 _ratio++;
                 _secondsBetweenRatioIncreese = _ratioIncreeseTime;
+
+                if (_currentRatioIncreeseCountdownCoroutine != null)
+                    StopCoroutine(_currentRatioIncreeseCountdownCoroutine);
+
+                _currentRatioIncreeseCountdownCoroutine = StartCoroutine(RatioIncreeseCountdown());
             }
-            else
+            else if (_secondsBetweenRatioIncreese == _ratioIncreeseTime)
             {
-                _secondsBetweenRatioIncreese -= Time.deltaTime;
+                if (_currentRatioIncreeseCountdownCoroutine != null)
+                    StopCoroutine(_currentRatioIncreeseCountdownCoroutine);
+
+                _currentRatioIncreeseCountdownCoroutine = StartCoroutine(RatioIncreeseCountdown());
             }
         }
         else
         {
+            if (_currentRatioIncreeseCountdownCoroutine != null)
+                StopCoroutine(_currentRatioIncreeseCountdownCoroutine);
+
             _ratio = _defaltRatio;
             _secondsBetweenRatioIncreese = _ratioIncreeseTime;
         }
 
         _currentScore += _carMover.CarCurrentSpeed * _ratio * Time.deltaTime;
+    }
+
+    private IEnumerator RatioIncreeseCountdown()
+    {
+        while (_secondsBetweenRatioIncreese > 0)
+        {
+            _secondsBetweenRatioIncreese -= Time.deltaTime;
+
+            yield return null;
+        }
     }
 
     private void OnGameOver() 
