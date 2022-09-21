@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class UserInput : MonoBehaviour
 {
-    public event UnityAction<Vector3> InputUpdated;
-
     private int _verticalInput;
+
+    public event UnityAction<Vector3> InputUpdated;
 
     private void Update()
     {

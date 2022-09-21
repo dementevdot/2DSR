@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TMP_Text))]
 public class CurrentScore : DisplayingParameters
 {
     [SerializeField] private Score _score;
@@ -17,12 +18,8 @@ public class CurrentScore : DisplayingParameters
     private void Update()
     {
         if (_score.Ratio > 1)
-        {
             _currentScore.text = $"{Mathf.Round(_score.CurrentScore)} X{_score.Ratio}";
-        }
         else
-        {
             _currentScore.text = Mathf.Round(_score.CurrentScore).ToString();
-        }
     }
 }
