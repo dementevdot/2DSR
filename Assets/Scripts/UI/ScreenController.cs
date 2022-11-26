@@ -26,6 +26,7 @@ public class ScreenController : MonoBehaviour
         _startScreen.StartButtonClick -= OnStartButtonClick;
         _gameOverScreen.RestartButtonClick -= OnRestartButtonClick;
     }
+
     private void Start()
     {
         _car.Reset();

@@ -14,6 +14,7 @@ public class CarCollisionHandler : MonoBehaviour
     {
         _carMover = GetComponent<CarMover>();
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _screenController.EndGame();

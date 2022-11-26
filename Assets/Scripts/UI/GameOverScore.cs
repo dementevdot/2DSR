@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TMP_Text))]
 public class GameOverScore : DisplayingParameters
 {
     [SerializeField] private Score _score;
