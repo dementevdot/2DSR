@@ -62,4 +62,21 @@ public class Car : MonoBehaviour
             if (_currentSpeed - speed >= _minSpeed)
                 _currentSpeed -= speed;
     }
+
+    private class CarCollisionHandler : MonoBehaviour
+    {
+        [SerializeField] private ScreenController _screenController;
+
+        private CarMover _carMover;
+
+        private void Awake()
+        {
+            _carMover = GetComponent<CarMover>();
+        }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            _screenController.EndGame();
+            _carMover.DisableCarMoving();
+        }
+    }
 }
