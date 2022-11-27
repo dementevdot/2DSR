@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CameraFollowing : MonoBehaviour
 {
-    private GameObject _followedGameObject;
+    private Transform _followedGameObject;
     private float _xOffset;
 
-    public void Init(GameObject followedGameObject, float xOffset)
+    public void Init(Transform followedGameObject, float xOffset)
     {
         _followedGameObject = followedGameObject;
         _xOffset = xOffset;

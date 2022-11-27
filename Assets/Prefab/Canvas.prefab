@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcac028b792b27c48829cf7f19454234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: {fileID: 0}
 --- !u!1 &7537280690288119435
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +530,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 7537280690670005156}
   m_OnClick:
     m_PersistentCalls:
@@ -548,7 +547,7 @@ GameObject:
   - component: {fileID: 7537280690738696577}
   - component: {fileID: 7537280690738696702}
   - component: {fileID: 7537280690738696703}
-  - component: {fileID: 7537280690738696579}
+  - component: {fileID: 1257834313700882392}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -588,8 +587,8 @@ Canvas:
   m_GameObject: {fileID: 7537280690738696700}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_RenderMode: 0
+  m_Camera: {fileID: 1024321481927539592, guid: d4d545b2cc8c4c049ab644ce3690d180, type: 3}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -640,7 +639,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7537280690738696579
+--- !u!114 &1257834313700882392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -649,16 +648,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7537280690738696700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74ba73fe5fe1480459ab31415305b444, type: 3}
+  m_Script: {fileID: 11500000, guid: 32b3fbc25e295a44abaa49ebde77bfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _car: {fileID: 0}
-  _roadGenerator: {fileID: 0}
-  _trafficGenerators:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _startScreen: {fileID: 7537280691551951619}
   _gameOverScreen: {fileID: 7537280691838913285}
   _speedometer: {fileID: 7537280691657872803}
@@ -810,7 +802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47e70ebbe584324c8f38e86aa404b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: {fileID: 0}
 --- !u!1 &7537280691551951616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b5613501cf6ea419971f31632f72ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: {fileID: 0}
 --- !u!1 &7537280692128979545
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,20 +5,20 @@ using System.Linq;
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] private GameObject _spawner;
     [SerializeField] protected int Capacity;
 
+    protected GameObject PoolGameObject;
     protected Camera Camera;
 
     protected List<GameObject> Pool = new List<GameObject>();
 
-    protected void Init(List<GameObject> prefabs)
+    protected virtual void Init(List<GameObject> prefabs)
     {
         Camera = Camera.main;
 
         for (int i = 0; i < Capacity; i++)
         {
-            GameObject spawned = Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)], _spawner.transform);
+            GameObject spawned = Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)], PoolGameObject.transform);
             spawned.SetActive(false);
 
             Pool.Add(spawned);
@@ -53,12 +53,8 @@ public class ObjectPool : MonoBehaviour
         List<GameObject> activeObjects = new List<GameObject>();
 
         foreach (var item in Pool)
-        {
             if (item.activeSelf == true)
-            {
                 activeObjects.Add(item);
-            }
-        }
 
         return activeObjects;
     }

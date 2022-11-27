@@ -6,13 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(TMP_Text))]
 public class GameOverScore : DisplayingParameters
 {
-    [SerializeField] private Score _score;
-
     private TMP_Text _bestScore;
 
     private void OnEnable()
     {
-        SetGameOverScore();
+        SetGameOverScore(0);
     }
 
     private void Awake()
@@ -20,8 +18,8 @@ public class GameOverScore : DisplayingParameters
         _bestScore = GetComponent<TMP_Text>();
     }
 
-    private void SetGameOverScore()
+    private void SetGameOverScore(float currentScore)
     {
-        _bestScore.text = $"SCORE: {Mathf.Round(_score.CurrentScore)}";
+        _bestScore.text = $"SCORE: {Mathf.Round(currentScore)}";
     }
 }

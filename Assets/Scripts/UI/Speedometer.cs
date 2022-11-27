@@ -7,8 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(TMP_Text))]
 public class Speedometer : DisplayingParameters
 {
-    [SerializeField] private Car _car;
-
+    private Car _car;
     private TMP_Text _speedometer;
 
     private void Awake()
@@ -18,5 +17,10 @@ public class Speedometer : DisplayingParameters
     private void Update()
     {
         _speedometer.text = $"{Mathf.Round(_car.CurrentSpeed * 10)} KM/H";
+    }
+
+    public void Init(Car car)
+    {
+        _car = car;
     }
 }
